@@ -1,5 +1,5 @@
 <template>
-        <nav>
+        <nav class="white-t">
     <p>Facebook</p>
     <form action="" id="navform">
         <fieldset><label for="username">Username or phone</label><input name="username" ></fieldset>
@@ -19,18 +19,19 @@
             <select name="day" id=""><option v-for="n in 31" v-bind:value="n">{{n}}</option></select>
             <select name="month" id=""><option v-for="month in months" v-bind:value="month"> {{month}} </option></select>
             <select name="month" id=""><option  v-for="n in 100" v-bind:value="cur-n" >{{cur-n}}</option></select>
-            <div class="help"><span>?</span> <span class="details"> Providing your date of birth helps make sure that you get the right Facebook experience for your age. If you want to change who sees this, 
-            go to the About section of your Profile. For more details, please visit our Data Policy. <span>bbtftycyc</span></span></div>
+            <div class="help white-t" v-on:click="Showd(0)"><span>?</span> <span class="details black-t"> Providing your date of birth helps make sure that you get the right Facebook experience for your age. If you want to change who sees this, 
+            go to the About section of your Profile. For more details, please visit our Data Policy. <span><button type="button" v-on:click="Shows(0)">Close</button></span></span></div>
         </fieldset>
         <fieldset id="gender"><p>Gender</p>
             <input type="radio" name="gender" value="Male" id="male"><label for="male">Male</label>
             <input type="radio" name="gender" value="Female" id="female"><label for="female">Female</label>
             <input type="radio" name="gender" value="Custom" id="custom"><label for="custom">Custom</label>
-            <div class="help"><span>?</span> <span class="details"> You can change who sees your gender on your profile later. Select Custom to choose another gender, or if you'd rather not say.</span></div>
+            <div class="help white-t" v-on:click="Showd(1)"><span >?</span> <span class="details black-t"> You can change who sees your gender on your profile later. Select Custom to choose another gender, or if you'd rather not say.
+              <span><button type="button" v-on:click="Shows(1)">Close</button></span></span></div>
         </fieldset>
         <p class="terms">By clicking Sign Up, you agree to our <a href="">Terms</a>,<a href=""> Data Policy </a>and <a href="">Cookie Policy</a>
         . You may receive SMS notifications from us and can opt out at any time.</p>
-        <button class="sign">Sign Up</button>
+        <button class="sign white-t">Sign Up</button>
     </form>
 
 </div>
@@ -38,11 +39,7 @@
 </template>
 
 <script>
-var years=[];
-var cur=new Date().getFullYear();
-for(var a=cur;a<=cur-100;a--){
-    years.push(a)
-}
+
 
 import Foot from './Footer.vue'
 export default {
@@ -58,6 +55,18 @@ export default {
       
     }
   },
+  methods:{
+    Showd:function(elmnt){
+      var y=document.getElementsByClassName("details");
+      for(var r=0;r<y.length;r++){ y[r].style.display="none"}
+      y[elmnt].style.display="inline";
+    },
+    Shows: function(n){
+      // alert("sd")
+      document.getElementsByClassName("details")[0].style.display="none";
+      
+    }
+  }
   
 }
  </script>
@@ -69,7 +78,7 @@ p{margin: 4px 0px;}
     a{text-decoration: none;}a:hover{text-decoration: underline;}
     nav form a,nav form a:visited{color:#fcfcfc;display: block;padding: 10px;}
     header{color: initial;}
-    nav{background-color: #3949ab;color: #ffffff;display: flex;align-items: center;height:90px;justify-content: space-around;}
+    nav{background-color: #3949ab;display: flex;align-items: center;height:90px;justify-content: space-around;}
     nav p{margin: unset; float: left;font-size: 40px;height: min-content;}
    #navform{display: flex;font-size: 12px;}form button{height: fit-content;background-color:#0559a8c9;border: unset;display: block;align-self: center;}
     fieldset{border: unset;position: relative;}
@@ -85,9 +94,14 @@ p{margin: 4px 0px;}
     .quick{font-size: 20px;}
     select{padding: 4px 8px;display: inline;float: left;} .reg label{display: inline;}
     .terms{font-size: 11px;}
-    .sign{background-color: #14831ac5;padding: 8px 20px;color: #ffffff;width: 200px;font-size: 20px;border-radius: 5px;}
-    .help{height: 20px;width: 20px;border-radius: 50%;position: relative;background-color: #363738;text-align: center;display:flex;justify-content: center;align-items: center;float: right;}   
-    .details{position:absolute;right: 140%;bottom: -50%; background-color: #ffffff;width:300px;text-align: initial;box-shadow: 2px 2px 4px; padding:10px;font-size: 11px;}
+    .sign{background-color: #14831ac5;padding: 8px 20px;width: 200px;font-size: 20px;border-radius: 5px;}
+    .help{height: 20px;width: 20px;border-radius: 50%;position: relative;background-color: #363738;text-align: center;display:flex;justify-content: center; float: right;}   
+    .details{position:absolute;right: 140%;bottom: -150%; background-color: #ffffff;width:300px;text-align: initial;box-shadow: 2px 2px 4px; padding:10px;font-size: 11px;display: none;}
     .details::after{content: "";position: absolute;top:48%;left:100%;border-top: -5;border-style: solid;border-width: 10px;border-color: transparent  transparent transparent#ffffff;}
-    .details span{}
+    .details span{display: block;border-top: solid 1px #818286;margin-top: 10px;padding: 5px 0;}
+    span button{float:right;padding:4px 10px;border-radius: 4px;color: white;}
+    
+
+
+    .white-t{color: #ffffff;}.black-t{color: #111;} .main-col{background-color:#3949ab ;}
 </style>
