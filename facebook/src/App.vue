@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Login from './components/Login.vue'
+import Login from './components/Registration.vue'
 
 export default {
   name: 'App',
@@ -15,7 +15,7 @@ export default {
 
 <style>
 #app {
-  height: 700px;position: relative;
+  height: 100%;position: relative;
   
   
 }

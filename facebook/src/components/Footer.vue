@@ -55,7 +55,7 @@ export default{
                 it:{name:"Italiano",link:"",enn:"Italian"},
                 af:{name:"Africaan",link:"",enn:"Africaan"},
                 pt:{name:"Portugues",link:"",enn:"Portuguese"},
-                de:{name:"Deustch",link:"",enn:"Dutck"},
+                de:{name:"Deustch",link:"",enn:"Dutch"},
                 tu:{name:"Turkse",link:"",enn:"Turkish"},
                 // kjksdfkhgkhf
                 fdg:{name:"English",link:"",enn:"English UK"},
@@ -127,7 +127,7 @@ export default{
 <style scoped>
 *{box-sizing:border-box;}
 .modal{height:100%;width:100%;background-color: #817d7d62;z-index: 1;position: fixed;top:0px;left:0%;display: flex;align-items: center;justify-content: center;display: none;}
-footer{width: 100%;height: 30%;background-color: #ffffff;padding: 20px;position: inherit;display: flex;flex-direction: column;}
+footer{width: 100%;background-color: #ffffff;padding: 20px;position: inherit;display: flex;flex-direction: column;}
 footer div{width: 90%;margin: 0 auto;display: flex;flex-direction: column;}
 .languages{display: flex;flex-direction: row;flex-wrap: wrap;padding-bottom: 8px;margin-bottom: 10px;}.languages:first-of-type{border-bottom: solid 1px #817d7d;}
 a{text-decoration: none;display: inline-block;padding:2px 10px;font-size:15px;color: #817d7d;width: fit-content;}
