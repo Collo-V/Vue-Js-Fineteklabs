@@ -3,7 +3,7 @@
     <p>Facebook</p>
     <form action="" id="navform">
         <fieldset><label for="username">Username or phone</label><input name="username" ></fieldset>
-        <fieldset><label for="username">Password</label><input name="username" ><a href="">Forgotten password</a></fieldset>
+        <fieldset><label for="username">Password</label><input name="username" ><router-link :to="{name:'fgtPass'}">Forgotten password?</router-link></fieldset>
         <button type="submit">Log In</button>
     </form>
 </nav>

@@ -1,8 +1,4 @@
 <template>
-  <div id="nav">
-    <router-link to="/login">Home</router-link> |
-    <router-link to="/register">About</router-link>
-  </div>
   <router-view/>
 </template>
 

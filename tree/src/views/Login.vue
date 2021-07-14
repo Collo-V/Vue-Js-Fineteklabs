@@ -12,10 +12,10 @@
         <fieldset ><input id="password" type="password" placeholder="Password" v-on:keyup="Show()" ref="password"><b class="viewpass" id="hide" v-on:click="Hide()"> <i class="fas fa-eye-slash"></i></b>
         <b class="viewpass" id="show" v-on:click="View()"><i class="fas fa-eye"></i></b></fieldset>
         <button type="submit">Log In</button>
-        <a href="">Forgotten password?</a>
+        <router-link :to="{name:'fgtPass'}">Forgotten password?</router-link>
 
     </form>
-    <router-link to="/register"><button class="create">Create New Account</button></router-link>
+    <router-link :to="{ name:'Register' }"><button class="create">Create New Account</button></router-link>
     
   <p> <a href=""> Create a Page</a> for a celebrity, band or business.</p>
   </div>

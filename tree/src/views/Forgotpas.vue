@@ -14,7 +14,7 @@
 Please enter your email address or mobile number to search for your account.</p>
         
         <fieldset><input type="text" name="" id="username" placeholder="Mobile number" class="rounded-b"></fieldset>
-        <div><button class=" black-t rounded-b cancel grey2-b">cancel</button><button class="white-t rounded-b royalb-b sign">Sign Up</button></div>
+        <div><button class=" black-t rounded-b cancel grey2-b">cancel</button><button class="white-t rounded-b royalb-b sign">Search</button></div>
     </form>
 
 </div>

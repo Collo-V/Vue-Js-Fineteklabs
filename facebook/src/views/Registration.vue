@@ -58,12 +58,12 @@ export default {
   methods:{
     Showd:function(elmnt){
       var y=document.getElementsByClassName("details");
-      for(var r=0;r<y.length;r++){ y[r].classList.remove("show");}
+      for(var r=0;r<y.length;r++){ y[r].classList.remove("show");y[r].style.visibility="visible"}
       y[elmnt].classList.add("show");
     },
     Shows: function(n){
       // alert(n)
-      document.getElementsByClassName("details")[n].style.visibility="hidden";
+      document.getElementsByClassName("details")[n].classList.remove("show");
       
     }
   }

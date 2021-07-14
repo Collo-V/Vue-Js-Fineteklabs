@@ -15,8 +15,8 @@
         <a href="">Forgotten password?</a>
 
     </form>
-    <a href=""><button class="create">Create New Account</button></a>
-
+    <router-link to="/register"><button class="create">Create New Account</button></router-link>
+    
   <p> <a href=""> Create a Page</a> for a celebrity, band or business.</p>
   </div>
   </div>
