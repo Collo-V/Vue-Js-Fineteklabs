@@ -21,7 +21,7 @@ button{padding: 10px 15px;cursor: pointer;}
 .black-t{color: #111;} 
 .grey-b{background-color: #ecedf0}.grey-t{color: rgb(128, 128, 128);} .grey2-b{background-color: #c5c6ca;}
 .royalb-b{background-color:#397eff}.royalb-t{color: #397eff;}
-.main-col{background-color:#3949ab ;}
+.main-col{background-color:#4267B2 ;}
 #nav a.router-link-exact-active {
   color: #42b983;
 }

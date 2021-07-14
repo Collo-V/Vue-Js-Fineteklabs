@@ -12,13 +12,13 @@
         <p class="create">Create a new account</p>
         <p class="quick">It's quick and easy</p>
         <fieldset id="names"><input type="text" name="" id="fname" placeholder="First name">
-        <input type="text" name="" id="lname" placeholder="Last name"></fieldset>
-        <fieldset id="mail"><input type="text" name="" id="username" placeholder="Email address or phone number"></fieldset>
+        <input type="text" name="" id="lname" placeholder="Surname"></fieldset>
+        <fieldset id="mail"><input type="text" name="" id="username" placeholder="Mobile number or Email address"></fieldset>
         <fieldset id="pass"><input type="password" name="" id="password" placeholder="Password"></fieldset>
         <fieldset><p>Date of birth</p>
-            <select name="day" id=""><option v-for="n in 31" v-bind:value="n">{{n}}</option></select>
-            <select name="month" id=""><option v-for="month in months" v-bind:value="month"> {{month}} </option></select>
-            <select name="month" id=""><option  v-for="n in 100" v-bind:value="cur-n" >{{cur-n}}</option></select>
+            <select name="day" id=""><option v-for="n in 31" :key="n" v-bind:value="n">{{n}}</option></select>
+            <select name="month" id=""><option v-for="month in months" :key="month" v-bind:value="month"> {{month}} </option></select>
+            <select name="month" id=""><option  v-for="n in 100"  :key="n" v-bind:value="cur-n" >{{cur-n}}</option></select>
             <div class="help white-t" v-on:click="Showd(0)"><span>?</span> <span class="details black-t"> Providing your date of birth helps make sure that you get the right Facebook experience for your age. If you want to change who sees this, 
             go to the About section of your Profile. For more details, please visit our Data Policy. <span><button type="button" v-on:click="Shows(0)">Close</button></span></span></div>
         </fieldset>
@@ -85,7 +85,7 @@ p{margin: 4px 0px;}
     nav fieldset label{display: block;}
     .reg{width: 100%;height: 100%;position: relative;padding: 30px 0px;}
     .reg form{margin: 0 auto;width: 500px;}
-    .reg input{height: 40px;border-radius: 5px;border-color: #acadb1;}
+    .reg input{border:unset;height:  40px;border-radius: 5px;border:solid 1px  #acadb1;font-size: 18px;}
     .reg a{display: inline;color:#0559a8c9;}
     #pass input,#mail input{width: 100%}#gender input{height: initial;}#gender label{margin-right:20px ;}
     #fname,#lname{width:49%;}#fname{float: left;}#lname{float: right;}
