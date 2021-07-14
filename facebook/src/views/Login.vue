@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Foot from './Footer.vue'
+import Foot from '../components/Footer.vue'
 export default {
   name: 'Login',
   components:{
