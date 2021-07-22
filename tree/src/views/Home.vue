@@ -2,10 +2,10 @@
  <nav>
      <div>
      <img src="../assets/logo.png" alt="">
-     <input type="text" placeholder="Search">
+     <input type="text" placeholder="Search Facebook">
      </div>
      <div class="qucklinks">
-         <span></span>
+         <span><i class="fas fa-home"></i></span>
 
      </div>
      <div class="notifs">
