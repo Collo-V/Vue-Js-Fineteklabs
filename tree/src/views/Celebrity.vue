@@ -1,27 +1,20 @@
 <template>
   <div class="log"> 
     <div class="logcont">
-    <div class="f-text">
-        <h1>Facebook</h1>
-        <p>Facebook helps you connect and share with the people in your life</p>
+    <div class="form">
+
+    <div>
+        <img src="../assets/logo.png" alt="">
+    </div>
     </div>
     <div class="form">
-    <!-- <div class="formcont"></div> -->
-    <form action="">
-        <fieldset><input type="text" placeholder="Email address or phone number"></fieldset>
-        <fieldset ><input id="password" type="password" placeholder="Password" v-on:keyup="Show()" ref="password"><b class="viewpass" id="hide" v-on:click="Hide()"> <i class="fas fa-eye-slash"></i></b>
-        <b class="viewpass" id="show" v-on:click="View()"><i class="fas fa-eye"></i></b></fieldset>
-        <button type="submit">Log In</button>
-        <a href="">Forgotten password?</a>
-
-    </form>
-    <router-link to="/register"><button class="create">Create New Account</button></router-link>
-    
-  <p> <a href=""> Create a Page</a> for a celebrity, band or business.</p>
+        
+    <div>
+        <img src="../assets/logo.png" alt="">
+    </div>
   </div>
   </div>
   </div>
-  <Foot></Foot>
 </template>
 
 <script>
@@ -70,9 +63,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     h1{font-size:50px;}
-    .logcont{width:90%;margin:auto auto;display: flex;justify-content: center;align-items: center;height: 100%;}
+    .logcont{width:90%;margin:auto auto;display: flex;justify-content: center;align-items: center;height: 100%;flex-direction: row;}
     .logcont div{display: inline;margin-left:10px}
-    .form{background-color: #ffffff;float: right; width: 45%;min-width: 200px;max-width: 400px; text-align: center;;height:fit-content;box-shadow: 2px 2px 4px #b3b0b0;border-radius: 10px;padding: 14px;width: 100%;height:340px;}
+    .form{background-color: #ffffff; width: 45%;min-width: 200px;max-width: 400px; text-align: center;;height:fit-content;box-shadow: 2px 2px 4px #b3b0b0;border-radius: 10px;padding: 14px;width: 100%;height:340px;}
     .form p{margin-top: 100px;}
     .f-text{font-family:Verdana, Geneva, Tahoma, sans-serif}
     .log{position: relative;background-color:#ecedf0 ;height: 700px;}

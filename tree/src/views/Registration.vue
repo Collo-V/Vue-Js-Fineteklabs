@@ -8,30 +8,30 @@
     </form>
 </nav>
 <div class="reg grey-b">
-    <form action="">
+    <form action="" @submit.prevent="Submit()">
         <p class="create">Create a new account</p>
         <p class="quick">It's quick and easy</p>
-        <fieldset id="names"><input type="text" name="" id="fname" placeholder="First name">
-        <input type="text" name="" id="lname" placeholder="Surname"></fieldset>
-        <fieldset id="mail"><input type="text" name="" id="username" placeholder="Mobile number or Email address"></fieldset>
-        <fieldset id="pass"><input type="password" name="" id="password" placeholder="Password"></fieldset>
+        <fieldset id="names"><input class="reginput" type="text" name="" id="fname" placeholder="First name" v-model="firstname" @blur="Valid('fname')">
+        <input class="reginput" type="text" name="" id="Sname" placeholder="Surname" v-model="surname" @blur="Valid('Sname')"></fieldset>
+        <fieldset id="mail"><input class="reginput" type="text" name="" id="username" placeholder="Mobile number or Email address" v-model="username" @blur="Valid('username')"> </fieldset>
+        <fieldset id="pass"><input class="reginput" type="password" name="" id="password" placeholder="Password" v-model="password" @blur="Valid('password')"></fieldset>
         <fieldset><p>Date of birth</p>
-            <select name="day" id=""><option v-for="n in 31" :key="n" v-bind:value="n">{{n}}</option></select>
-            <select name="month" id=""><option v-for="month in months" :key="month" v-bind:value="month"> {{month}} </option></select>
-            <select name="month" id=""><option  v-for="n in 100"  :key="n" v-bind:value="cur-n" >{{cur-n}}</option></select>
+            <select name="day" id="day" v-model="bday"><option v-for="n in 31" :key="n" v-bind:value="n">{{n}}</option></select>
+            <select name="month" id="month" v-model="bmonth"><option v-for="month in months" :key="month" v-bind:value="month"> {{month}} </option></select>
+            <select name="year" id="year" v-model="byear"><option  v-for="n in 100"  :key="n" v-bind:value="cur-n" >{{cur-n}}</option></select>
             <div class="help white-t" v-on:click="Showd(0)"><span>?</span> <span class="details black-t"> Providing your date of birth helps make sure that you get the right Facebook experience for your age. If you want to change who sees this, 
             go to the About section of your Profile. For more details, please visit our Data Policy. <span><button type="button" v-on:click="Shows(0)">Close</button></span></span></div>
         </fieldset>
         <fieldset id="gender"><p>Gender</p>
-            <input type="radio" name="gender" value="Male" id="male"><label for="male">Male</label>
-            <input type="radio" name="gender" value="Female" id="female"><label for="female">Female</label>
-            <input type="radio" name="gender" value="Custom" id="custom"><label for="custom">Custom</label>
+            <input class="reginput" type="radio" v-model="gender" value="Male" id="male"><label for="male">Male</label>
+            <input class="reginput" type="radio" v-model="gender" value="Female" id="female"><label for="female">Female</label>
+            <input class="reginput" type="radio" v-model="gender" value="Custom" id="custom"><label for="custom">Custom</label>
             <div class="help white-t" v-on:click="Showd(1)"><span >?</span> <span class="details black-t"> You can change who sees your gender on your profile later. Select Custom to choose another gender, or if you'd rather not say.
               <span><button type="button" v-on:click="Shows(1)">Close</button></span></span></div>
         </fieldset>
         <p class="terms">By clicking Sign Up, you agree to our <a href="">Terms</a>,<a href=""> Data Policy </a>and <a href="">Cookie Policy</a>
         . You may receive SMS notifications from us and can opt out at any time.</p>
-        <button class="sign white-t">Sign Up</button>
+        <button class="sign white-t" >Sign Up</button>
     </form>
 
 </div>
@@ -42,6 +42,8 @@
 
 
 import Foot from '../components/Footer.vue'
+import {users,auth} from "../firebase"
+// import auth from "../firebase" 
 export default {
   name: 'Login',
   components:{
@@ -52,8 +54,13 @@ export default {
     return{
       months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
       cur:new Date().getFullYear(),
-      
-    }
+      surname:'',
+      firstname:'',
+      username:'',
+      password:'',
+      bday:'',bmonth:"",byear:"",
+      gender:'',
+     }
   },
   methods:{
     Showd:function(elmnt){
@@ -61,9 +68,45 @@ export default {
       for(var r=0;r<y.length;r++){ y[r].classList.remove("show");y[r].style.visibility="visible"}
       y[elmnt].classList.add("show");
     },
-    Shows: function(n){
-      // alert(n)
+    Shows: function(event,n){
+      event=0;
       document.getElementsByClassName("details")[n].classList.remove("show");
+      
+    },
+    Valid:function(id){
+      var a=document.getElementById(id);
+      if(a.value==""){a.classList.add("error")}else{a.classList.remove("error")}
+      // if(id="password" && a.value.length<6){a.classList.add("error")}else{a.classList.remove("error")}
+    },
+    Submit:function(){
+      if(this.firstname==""){document.getElementById("fname").classList.add("error")}else{document.getElementById("fname").classList.remove("error")}
+      if(this.surname==""){document.getElementById("Sname").classList.add("error")}else{document.getElementById("Sname").classList.remove("error")}
+      if(this.username==""){document.getElementById("username").classList.add("error")}else{document.getElementById("username").classList.remove("error")}
+      if(this.password==""|| this.password.length<6){document.getElementById("password").classList.add("error")}else{document.getElementById("password").classList.remove("error")}
+      if(this.bmonth==""){document.getElementById("month").classList.add("error")}else{document.getElementById("month").classList.remove("error")}
+      if(this.byear==""){document.getElementById("year").classList.add("error")}else{document.getElementById("year").classList.remove("error")}
+      if(this.bday==""){document.getElementById("day").classList.add("error")}else{document.getElementById("day").classList.remove("error")}
+      // if(this.byear==""){document.getElementById("").classList.add("error")}else{document.getElementById("").classList.remove("error")}
+      var a=document.getElementsByClassName("error")
+      if(a.length<=0){
+        var mail="";var phone=""
+
+        if(parseInt(this.username).toString()=="NaN"){mail=this.username}
+        else{phone=this.username;mail=this.firstname.toLowerCase().concat(this.surname.toLowerCase(),phone.slice(7,10),"@gmail.com")}
+         const user={
+          firstname:this.firstname,
+          surname:this.surname,
+          phone:phone,
+          email:mail,
+          password:this.password
+        }
+        users.add(user).then(()=>{
+          auth.createUserWithEmailAndPassword(mail,this.password).then(cred =>{
+            console.log(cred)
+  
+          })
+        })
+      }
       
     }
   }
@@ -85,10 +128,10 @@ p{margin: 4px 0px;}
     nav fieldset label{display: block;}
     .reg{width: 100%;height: 100%;position: relative;padding: 30px 0px;}
     .reg form{margin: 0 auto;width: 500px;}
-    .reg input{border:unset;height:  40px;border-radius: 5px;border:solid 1px  #acadb1;font-size: 18px;}
+    .reginput{border:unset;height:  40px;border-radius: 5px;border:solid 1px  #acadb1;font-size: 18px;}
     .reg a{display: inline;color:#0559a8c9;}
     #pass input,#mail input{width: 100%}#gender input{height: initial;}#gender label{margin-right:20px ;}
-    #fname,#lname{width:49%;}#fname{float: left;}#lname{float: right;}
+    #fname,#Sname{width:49%;}#fname{float: left;}#Sname{float: right;}
     fieldset p{color: #818286;font-weight: bold;}
     .create{font-size: 36px;font-weight: bold;margin: unset;}
     .quick{font-size: 20px;}
@@ -101,7 +144,8 @@ p{margin: 4px 0px;}
     .details span{display: block;border-top: solid 1px #818286;margin-top: 10px;padding: 5px 0;}
     span button{float:right;padding:4px 10px;border-radius: 4px;color: white;}
     .show{display: initial;}
-    
+    .error{border-color: #f00}
+    .error:focus{border-color: initial;}
 
 
    

@@ -1,34 +1,30 @@
 <template>
   <div id="nav">
-    <router-link to="/login">Home</router-link> |
-    <router-link to="/register">About</router-link>
+    <router-link to="/">Home</router-link> |
+    <router-link to="/about">About</router-link>
   </div>
   <router-view/>
 </template>
 
 <style>
 #app {
-  height: 100%;position: relative;
-  
-  
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
 }
-a{text-decoration: none;}
-body{position: relative;;}
 
-input:focus-visible{outline: none;}
-button{padding: 10px 15px;cursor: pointer;}
-.card{box-shadow:2px 2px 4px #c5c6ca;}
+#nav {
+  padding: 30px;
+}
 
-.rounded-b{border-radius: 8px;}
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
 
-.white-t{color: #ffffff;} .white-b{background-color: #ffffff;}
-.black-t{color: #111;} 
-.grey-b{background-color: #ecedf0}.grey-t{color: rgb(128, 128, 128);} .grey2-b{background-color: #c5c6ca;}
-.royalb-b{background-color:#397eff}.royalb-t{color: #397eff;}
-.main-col{background-color:#3949ab ;}
 #nav a.router-link-exact-active {
   color: #42b983;
 }
 </style>
-
-
