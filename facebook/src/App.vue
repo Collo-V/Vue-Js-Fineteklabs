@@ -28,7 +28,7 @@ body{position: relative;;}
 input:focus-visible{outline: none;}
 button{padding: 10px 15px;cursor: pointer;}
 .card{box-shadow:2px 2px 4px #c5c6ca;}
-
+.modal{height:100%;width:100%;z-index: 1;position: fixed;top:0px;left:0%;display: none;align-items: center;justify-content: center;}
 .rounded-b{border-radius: 8px;}
 
 .white-t{color: #ffffff;} .white-b{background-color: #ffffff;}

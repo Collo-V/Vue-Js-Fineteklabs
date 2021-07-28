@@ -169,7 +169,7 @@ export default {
 /* body{background-color: #333;} */
 .cds{background-color: #292727;}
 .post-input{padding: 10px;border-radius: 20px;width:90%}
-.modal{height:100%;width:100%;z-index: 1;position: fixed;top:0px;left:0%;display: none;align-items: center;justify-content: center;}
+
 .post-head{display: block;width: 100%;text-align: center;border-bottom: solid #353333;padding: 20px 2px;}.post-head h1{font-weight: normal;font-size: 18px;}
 .post-content{width:100%;outline: none;padding: 10px;font-size: 24px;height: fit-content;} 
 .hidden{display: none;}
