@@ -39,4 +39,7 @@ button{padding: 10px 15px;cursor: pointer;}
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.reactionbtn{background-color: transparent;width: 29%;}
+.reactionbtn:hover{background-color: #343435;}
 </style>

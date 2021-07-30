@@ -12,9 +12,10 @@
             <span class="mr-4"><v-icon large>mdi-account-group</v-icon></span>
             <span class="mr-4"><v-icon large>mdi-facebook-gaming</v-icon></span>
         </div>
+         <span>{{ShowProfile()}}</span><!--INITIATING the showprofile function to access the profile picture and save it in this.profile -->
         <div class="notifs">
              <router-link :to="{name:'profile'}"><span class="profile rounded-pill"><v-avatar size="large" class="bg-grey-darken-4">
-                    <v-img src="../assets/logo.png"></v-img>          
+                    <img :src="profile">          
             </v-avatar>
             <span class="text-white">{{Name()}}</span></span></router-link>
             <v-badge location="top-right" color="grey-darken-4" dot offset-x="-4" offset-y="4" class="mr-1">
@@ -32,7 +33,7 @@
                     <span><v-icon large>mdi-bell</v-icon></span>          
                 </v-avatar>
             </v-badge>
-            <v-badge bordered  location="top-right" color="red-accent-3" dot offset-x="2" of class="mr-1">
+            <v-badge bordered  location="top-right" color="red-accent-3" dot offset-x="2" of class="mr-1" @click="Logout()" style="cursor:pointer">
                 <v-avatar size="default" class="bg-grey-darken-3">
                     <span><v-icon large>mdi-menu-down</v-icon></span>          
                 </v-avatar>
@@ -42,13 +43,14 @@
 </template>
 
 <script>
-import {users,auth,posts,storage} from "../firebase"
+import {users,auth,posts,storage,profiles} from "../firebase"
 export default {
     name:"Homefooter",
     data(){
         return{
             user:'',
             email:'',
+            profile:''
 
         }
 
@@ -70,7 +72,27 @@ export default {
             Name:function(){
                 this.authcheck();
                 return this.user
-                }
+                },
+                Logout:function(){
+                    auth.signOut();
+                    this.$router.push('/login')
+                },
+                ShowProfile:function(){
+                    auth.onAuthStateChanged(user=>{
+                        var email=user.email;
+                    profiles.get().then(snapshot=>{
+                        snapshot.docs.forEach(doc=>{
+                        var profile=doc.data();
+                        if(profile.user==email){
+                        this.profile= profile.profilepic
+                        }
+                        })
+                        if(this.profile==""){
+                            this.profile= "https://firebasestorage.googleapis.com/v0/b/facebook-832aa.appspot.com/o/posts%2F1627374203034.png?alt=media&token=0ecb4d74-c3f4-4201-a58b-06062fb15144"
+                        }
+                    })
+                    })
+                },
         
     }
 

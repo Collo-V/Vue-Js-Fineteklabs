@@ -2,13 +2,13 @@
  <v-app>
      <HomeHeader></HomeHeader>
      <!-- CONTENT -->
-     <v-card class="bg-grey-darken-4 text-white" style="margin-top:65px" height="100%">
-         <v-card flat class="content mx-auto bg-grey-darken-4" width="40%">
+     <v-card class="bg-grey-darken-4 text-white" style="margin-top:65px" height="100%" >
+         <v-card flat class="content mx-auto bg-grey-darken-4" >
              <v-card height="100" class="pa-3" style="background-color: #292727;" width="100%">
                  <v-avatar size="large" class="bg-grey-darken-4">
                     <v-img src="../assets/logo.png"></v-img>          
                 </v-avatar>
-        <span class="bg-grey-darken-3 post-input" @click="ShowPost()">{{postSpan()}}</span>
+        <span class="bg-grey-darken-3 post-input rounded-pill pa-3" @click="ShowPost()">{{postSpan()}}</span>
 
              </v-card >             
                  <Posts></Posts>
@@ -72,7 +72,7 @@ export default {
             else{this.icon="transparent"}
         },
         Valid:function(){
-            if(this.post==""){
+            if(this.post=="" && this.imgpresent!=true){
                 this.disabled=true
             }
             else{this.disabled=false}
@@ -136,9 +136,9 @@ export default {
                             image:url
                         }
         
-                        posts.add(post).then(here=>{
-                            console.log("success! ",here.id);
-                            location.reload();
+                        posts.add(post).then(after=>{
+                            console.log("success! ",after.id);
+                            location.reload()
                         })
                     })
                 });}
@@ -147,9 +147,10 @@ export default {
                             user:this.email,
                             content:this.post,
                         }
-                        posts.add(post).then(here=>{
-                            console.log("success! ",here.id);
-                            location.reload(0)
+                        posts.add(post).then(after=>{
+                            console.log("success! ",after.id);
+                            location.reload()
+                            
                        })
                 }
             
@@ -168,7 +169,7 @@ export default {
 <style scoped>
 /* body{background-color: #333;} */
 .cds{background-color: #292727;}
-.post-input{padding: 10px;border-radius: 20px;width:90%}
+.content{width:40%}
 
 .post-head{display: block;width: 100%;text-align: center;border-bottom: solid #353333;padding: 20px 2px;}.post-head h1{font-weight: normal;font-size: 18px;}
 .post-content{width:100%;outline: none;padding: 10px;font-size: 24px;height: fit-content;} 
@@ -191,4 +192,7 @@ form{width: 100%;}
 .imgcont{width: 100%;border-radius: 50%;}
 .imgcont img{width:500px;height: auto;}
 .postimage{display: none;}
+@media (max-width:640px){
+    .content{width: 90%;}
+}
 </style>    

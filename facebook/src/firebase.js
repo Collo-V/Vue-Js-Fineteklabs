@@ -28,8 +28,9 @@ const storage=firebase.storage()
 // collection references
 const users= db.collection('users')
 const posts = db.collection('posts')
+const profiles = db.collection('profiles')
 // const commentsCollection = db.collection('comments')
 // const likesCollection = db.collection('likes')
 export {
-  users,auth,posts,storage
+  users,auth,posts,storage,profiles
 }
