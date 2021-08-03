@@ -25,8 +25,8 @@
         <i  class="mdi-comment-outline mdi v-icon v-icon--size-default mr-1"></i> Comment</button>
         <button  @click="Share(posts.postid)" class="reactionbtn pa-2 rounded-lg text-white">
         <i  class="mdi-share-outline mdi v-icon v-icon--size-default mr-1"></i> Share</button>
-        <v-card class="bg-transparent">
-           <span></span>
+        <v-card class="bg-transparent" style="height:auto">
+           
                      <v-card class="bg-transparent" width="100%">
                          <v-avatar size="30" class="bg-grey-darken-4 float-left">
                     <img :src="theuser.profile">        
@@ -35,12 +35,13 @@
              oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' @keyup.enter="PostComment(posts.postid)"></textarea>
               
             </v-card>
-            <v-card v-for="commentor in comments[posts.postid]" :key="commentor" class="bg-transparent">{{commentor}}
-                <!-- <v-avatar size="30" class="bg-grey-darken-4 float-left">
+            <div v-for="commentor in comments[posts.postid]" :key="commentor" class="bg-transparent py-3" >
+                <span class="d-flex align-center"><v-avatar size="30" class="bg-grey-darken-4 float-left">
                     <img :src="commentor.profile">        
-                </v-avatar> -->
+                </v-avatar>
+                <span class=" ml-1 text-white bg-grey-darken-3 d-flex flex-column rounded-pill px-4">{{commentor.firstname}} {{commentor.surname}}<span>{{commentor.comment}}</span></span></span>
 
-            </v-card>
+            </div>
         </v-card>
 
         </div>
@@ -170,39 +171,40 @@ methods:{
         })        
     },
     PostComment:function(id){
-       var comment=document.getElementById(id).value;        
+       var x=document.getElementById(id); 
+       x.blur();
+       x.value=comment=x.value.trim();     
           posts.doc(id).collection("comments").add({
               user:this.theuser.email,
               comment:comment
 
           })
     },
-    RetrieveComments:function(postid,comments){
-        var email,firstname,surname,comment,allcomments,profile,postcomments=[];
+    RetrieveComments: function(postid,comments){
+        var email,firstname,surname,comment,allcomments,profile,postcomments=[],z=0;
         comments.docs.forEach(text=>{
-           console.log("done")
             var text=text.data();
             users.where('email',"==",text.user).get().then(user=>{
                 user.docs.forEach(usrs=>{
                     var y=usrs.data();
-                    email=text.user;firstname=y.firstname;surname=y.surname;comment=text.comment
+                    email=text.user;firstname=y.firstname;surname=y.surname;comment=text.comment})
                     
                     profiles.where("user","==",email).get().then(snapshot=>{
+                        var count=0;
                         snapshot.docs.forEach(doc=>{
                             var userprofile=doc.data();
-                        if(userprofile.user==email){
-                            profile= userprofile.profilepic;
-                            allcomments={"email":email,"firstname":firstname,"surname":surname,"commment":comment,"profile":profile}
-                            postcomments.push(allcomments)
-                            console.log(allcomments)
-                            this.comments[postid]=postcomments;
-                        console.log("all: ",postcomments)
-                        }
-                    })
-                })
-                })
+                           profile=userprofile.profilepic
+                        var t=this.comments[postid];t[z]["profile"]=profile;z+=1;
+                           
+                           })
+                          })
+                        allcomments={"email":email,"firstname":firstname,"surname":surname,"comment":comment,"profile":profile}
+                        postcomments.push(allcomments)
+                       this.comments[postid]=postcomments;
+                       console.log(this.comments)
 
             })
+            // console.log(allcomments)
         
         })
     },

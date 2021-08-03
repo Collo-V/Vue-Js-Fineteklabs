@@ -16,7 +16,7 @@
         <fieldset id="mail"><input class="reginput" type="text" name="" id="username" placeholder="Mobile number or Email address" v-model="username" @blur="Valid('username')"> </fieldset>
         <fieldset id="pass"><input class="reginput" type="password" name="" id="password" placeholder="Password" v-model="password" @blur="Valid('password')"></fieldset>
         <fieldset><p>Date of birth</p>
-            <select name="day" id="day" v-model="bday"><option v-for="n in 31" :key="n" v-bind:value="n">{{n}}</option></select>
+            <select name="day" id="day" v-model="bday"><option v-for="n in 31" :key="n" :value="n">{{n}}</option></select>
             <select name="month" id="month" v-model="bmonth"><option v-for="month in months" :key="month" v-bind:value="month"> {{month}} </option></select>
             <select name="year" id="year" v-model="byear"><option  v-for="n in 100"  :key="n" v-bind:value="cur-n" >{{cur-n}}</option></select>
             <div class="help white-t" v-on:click="Showd(0)"><span>?</span> <span class="details black-t"> Providing your date of birth helps make sure that you get the right Facebook experience for your age. If you want to change who sees this, 
@@ -53,12 +53,12 @@ export default {
   data(){
     return{
       months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-      cur:new Date().getFullYear(),
+      cur:new Date().getFullYear()+1,
       surname:'',
       firstname:'',
       username:'',
       password:'',
-      bday:'',bmonth:"",byear:"",
+      bday:1,bmonth:"Jan",byear:new Date().getFullYear(),
       gender:'',
      }
   },
@@ -83,10 +83,20 @@ export default {
       if(this.surname==""){document.getElementById("Sname").classList.add("error")}else{document.getElementById("Sname").classList.remove("error")}
       if(this.username==""){document.getElementById("username").classList.add("error")}else{document.getElementById("username").classList.remove("error")}
       if(this.password==""|| this.password.length<6){document.getElementById("password").classList.add("error")}else{document.getElementById("password").classList.remove("error")}
-      if(this.bmonth==""){document.getElementById("month").classList.add("error")}else{document.getElementById("month").classList.remove("error")}
-      if(this.byear==""){document.getElementById("year").classList.add("error")}else{document.getElementById("year").classList.remove("error")}
-      if(this.bday==""){document.getElementById("day").classList.add("error")}else{document.getElementById("day").classList.remove("error")}
-      // if(this.byear==""){document.getElementById("").classList.add("error")}else{document.getElementById("").classList.remove("error")}
+      // VALIDATE DATE:
+      var month=document.getElementById("month");
+      var day=document.getElementById("day");
+      var year=document.getElementById("year")
+
+      var theday=parseInt(this.bday);
+      var themonth=this.bmonth;
+      var theyear=parseInt(this.byear);
+      if(themonth=="Feb" && theday>28){if(theyear%4==0 &&theday<=29){month.classList.remove("error");day.classList.remove("error")}else{month.classList.add("error");day.classList.add("error")}}else{month.classList.remove("error");day.classList.remove("error")}
+
+
+
+
+
       var a=document.getElementsByClassName("error")
       if(a.length<=0){
         var mail="";var phone=""
@@ -128,7 +138,7 @@ p{margin: 4px 0px;}
     .nav input{background-color: #ffffff;}
     nav fieldset label{display: block;}
     .reg fieldset{margin-bottom: 10px;}
-    .reg{width: 100%;height: 100%;position: relative;padding: 30px 0px;}
+    .reg{width: 100%;height: 70%;position: relative;padding: 30px 0px;}
     .reg form{margin: 0 auto;width: 500px;}
     .reginput{border:unset;height:  40px;border-radius: 5px;border:solid 1px  #acadb1;font-size: 18px;}
     .reg a{display: inline;color:#0559a8c9;}
@@ -137,7 +147,7 @@ p{margin: 4px 0px;}
     fieldset p{color: #818286;font-weight: bold;}
     .create{font-size: 36px;font-weight: bold;margin: unset;}
     .quick{font-size: 20px;}
-    select{padding: 4px 8px;display: inline;float: left;} .reg label{display: inline;}
+    select{padding: 4px 8px;display: inline;float: left;border: solid 1px #111;} .reg label{display: inline;}
     .terms{font-size: 11px;}
     .sign{background-color: #14831ac5;padding: 8px 20px;width: 200px;font-size: 20px;border-radius: 5px;}
     .help{height: 20px;width: 20px;border-radius: 50%;position: relative;background-color: #363738;text-align: center;display:flex;justify-content: center; float: right;}   
@@ -148,6 +158,7 @@ p{margin: 4px 0px;}
     .show{display: initial;}
     .error{border-color: #f00}
     .error:focus{border-color: initial;}
+    /* select.error{display: none;} */
 
 
    
