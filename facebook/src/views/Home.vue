@@ -1,6 +1,7 @@
 <template>
  <v-app>
-     <HomeHeader></HomeHeader>
+     {{Authcheck()}}
+     <HomeHeader :theuser="user"></HomeHeader>
      <!-- CONTENT -->
      <v-card class="bg-grey-darken-4 text-white" style="margin-top:65px" height="100%" >
          <v-card flat class="content mx-auto bg-grey-darken-4" >
@@ -11,7 +12,7 @@
         <span class="bg-grey-darken-3 post-input rounded-pill pa-3" @click="ShowPost()">{{postSpan()}}</span>
 
              </v-card >             
-                 <Posts></Posts>
+                 <Posts :theuser="user"></Posts>
              
          </v-card>
     </v-card>
@@ -44,7 +45,7 @@
 </template>
 
 <script>
-import {users,auth,posts,storage} from "../firebase"
+import {users,auth,posts,storage,profiles} from "../firebase"
 import Posts from '../components/Posts.vue'
 import HomeHeader from "../components/HomeHeader.vue"
 
@@ -56,6 +57,7 @@ export default {
     },
     data(){
         return {
+           thisuser:"",
             notif:true,
             post:"",
             icon:"bg-transparent",
@@ -81,24 +83,36 @@ export default {
             var x=document.querySelector(".modal");
             x.style.display="flex"
         },
-        authcheck:function(){
+        Authcheck:function(){
+            if(this.user!=""){return}
             auth.onAuthStateChanged(user=>{
                 var thisuser=this.email=user.email;
                 users.get().then((snapshot)=>{
                     snapshot.docs.forEach(doc=>{
-                        if(doc.data().email==thisuser){
-                            this.user=doc.data().firstname
+                        var data=doc.data();
+                        if(data.email==thisuser){
+                            var firstname=data.firstname;var email=thisuser;var userprofile=''
+                        
+                        profiles.get().then(snapshot=>{
+                            snapshot.docs.forEach(doc=>{
+                                var profile=doc.data();
+                        if(profile.user==email){
+                            userprofile= profile.profilepic
+                        }
+                        })
+                        this.user={"firstname":firstname,"email":email,"profile":userprofile}
+                    })
+
                         }
                     })
                 })
             })
             },
             Placeholder:function(){
-                this.authcheck()
-                return "What's on your mind, "+this.user
+                return "What's on your mind, "+this.user.firstname
             },
-            postSpan:function(){
-                if(this.post==""){return "What's on your mind, "+this.user}
+            postSpan: function(){
+                if(this.post==""){return "What's on your mind, "+this.user.firstname}
                 else{return this.post}
             },
             
@@ -160,6 +174,9 @@ export default {
                 myimg.src="";
                 if(this.post==""){this.disabled=true}
                 this.imgpresent=false;                      
+            },
+            Thisuser:function(){
+                alert(this.user);
             }
     }
 

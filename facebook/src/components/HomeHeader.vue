@@ -12,12 +12,11 @@
             <span class="mr-4"><v-icon large>mdi-account-group</v-icon></span>
             <span class="mr-4"><v-icon large>mdi-facebook-gaming</v-icon></span>
         </div>
-         <span>{{ShowProfile()}}</span><!--INITIATING the showprofile function to access the profile picture and save it in this.profile -->
         <div class="notifs">
              <router-link :to="{name:'profile'}"><span class="profile rounded-pill"><v-avatar size="large" class="bg-grey-darken-4">
-                    <img :src="profile">          
+                    <img :src="theuser.profile">          
             </v-avatar>
-            <span class="text-white">{{Name()}}</span></span></router-link>
+            <span class="text-white">{{theuser.firstname}}</span></span></router-link>
             <v-badge location="top-right" color="grey-darken-4" dot offset-x="-4" offset-y="4" class="mr-1">
                 <v-avatar size="default" class="bg-grey-darken-3">
                     <span><v-icon large>mdi-dots-grid</v-icon></span>          
@@ -43,7 +42,7 @@
 </template>
 
 <script>
-import {users,auth,posts,storage,profiles} from "../firebase"
+import {auth} from "../firebase"
 export default {
     name:"Homefooter",
     data(){
@@ -56,45 +55,15 @@ export default {
 
     },
     methods:{
-        authcheck:function(){
-            auth.onAuthStateChanged(user=>{
-                var thisuser=this.email=user.email;
-                users.get().then((snapshot)=>{
-                    snapshot.docs.forEach(doc=>{
-                        if(doc.data().email==thisuser){
-                            this.user=doc.data().firstname;
-                        }
-                    })
-                })
-                // Retrieve profile picture
-            })
-            },
-            Name:function(){
-                this.authcheck();
-                return this.user
-                },
+        
                 Logout:function(){
                     auth.signOut();
                     this.$router.push('/login')
                 },
-                ShowProfile:function(){
-                    auth.onAuthStateChanged(user=>{
-                        var email=user.email;
-                    profiles.get().then(snapshot=>{
-                        snapshot.docs.forEach(doc=>{
-                        var profile=doc.data();
-                        if(profile.user==email){
-                        this.profile= profile.profilepic
-                        }
-                        })
-                        if(this.profile==""){
-                            this.profile= "https://firebasestorage.googleapis.com/v0/b/facebook-832aa.appspot.com/o/posts%2F1627374203034.png?alt=media&token=0ecb4d74-c3f4-4201-a58b-06062fb15144"
-                        }
-                    })
-                    })
-                },
+                
         
-    }
+    },
+    props:["theuser"]
 
 }
 </script>
