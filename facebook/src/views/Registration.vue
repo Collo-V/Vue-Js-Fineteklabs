@@ -13,6 +13,7 @@
         <p class="quick">It's quick and easy</p>
         <fieldset id="names"><input class="reginput" type="text" name="" id="fname" placeholder="First name" v-model="firstname" @blur="Valid('fname')">
         <input class="reginput" type="text" name="" id="Sname" placeholder="Surname" v-model="surname" @blur="Valid('Sname')"></fieldset>
+        <div id="error" class="text-red text-center" ></div>
         <fieldset id="mail"><input class="reginput" type="text" name="" id="username" placeholder="Mobile number or Email address" v-model="username" @blur="Valid('username')"> </fieldset>
         <fieldset id="pass"><input class="reginput" type="password" name="" id="password" placeholder="Password" v-model="password" @blur="Valid('password')"></fieldset>
         <fieldset><p>Date of birth</p>
@@ -110,11 +111,12 @@ export default {
           email:mail,
           password:this.password
         }
-        users.add(user).then(()=>{
           auth.createUserWithEmailAndPassword(mail,this.password).then(cred =>{
-            console.log(cred.user)
+            users.add(user).then(()=>{           
   
           })
+        }).catch(error=>{
+          document.getElementById("error").innerHTML=error.message;
         })
       }
       

@@ -3,7 +3,26 @@
      {{Authcheck()}}
      <HomeHeader :theuser="user"></HomeHeader>
      <!-- CONTENT -->
-     <v-card class="bg-grey-darken-4 text-white" style="margin-top:65px" height="100%" >
+     <v-card class="bg-grey-darken-4 text-white mt-16" height="100%" >
+         <v-card width="300" class="float-left mt-4 bg-transparent ml-2">
+             
+             <v-card class="hoverable py-3 mb-2 text-white px-2">
+            <v-avatar size="30" class="bg-grey-darken-4 float-left">
+                    <img :src="user.profile">        
+            </v-avatar><span>{{user.firstname}} {{user.surname}}  {{SideMenu()}}</span>
+        </v-card>
+        <v-card class="hoverable py-3 mb-2 text-white px-2 d-flex align-center" v-for="menu in sideMenu" :key="menu" elevation="0">
+             <img :src="menu.icon"><span class="ml-2">{{menu.name}}</span>
+        </v-card>
+        
+
+        
+
+        </v-card>
+
+
+              <v-card width="200" class="float-right">Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero ratione voluptas nostrum
+              harum repudiandae excepturi quod suscipit maiores officia molestias.</v-card>
          <v-card flat class="content mx-auto bg-grey-darken-4" >
              <v-card height="100" class="pa-3" style="background-color: #292727;" width="100%">
                  <v-avatar size="large" class="bg-grey-darken-4">
@@ -57,6 +76,7 @@ export default {
     },
     data(){
         return {
+            sideMenu:[],
            thisuser:"",
             notif:true,
             post:"",
@@ -69,6 +89,41 @@ export default {
         }
     },
     methods:{
+        Saver:function(){
+             var input=document.createElement("input");
+                input.type="file";
+                var x=document.getElementById("side-menu");
+                var y=document.getElementById("name");
+            var name=y.value;
+           var metadata={name:name}
+            input.onchange = e=>{
+                    var files=e.target.files;
+                    var reader=new FileReader();
+                     reader.readAsDataURL(files[0]);
+                     this.count++;
+                     storage.ref("side-menu-items/"+this.count.toString()+name).put(files[0],metadata).then(()=>{
+                         console.log("success")
+                         name="";
+                         y.focus()
+                    })
+            }
+            input.click()
+        },
+        SideMenu:function(){
+            if(this.sideMenu.length>0){return}
+            var tree=storage.ref("side-menu-items");
+            tree.listAll().then(images=>{
+               images.items.forEach(image=>{
+                   var storageRef = storage.ref();
+                   var em= storageRef.child(image.fullPath);
+                   var name=image.name;
+                   name=name.substring(2,name.length-1)
+                   em.getDownloadURL().then((url) => {
+                        this.sideMenu.push({name:name,icon:url})
+                    })
+                })
+            })
+       },
         Icon:function(n){
             if(n==0){this.icon="bg-grey-lighten-1"}
             else{this.icon="transparent"}
@@ -91,7 +146,7 @@ export default {
                     snapshot.docs.forEach(doc=>{
                         var data=doc.data();
                         if(data.email==thisuser){
-                            var firstname=data.firstname;var email=thisuser;var userprofile=''
+                            var firstname=data.firstname;var email=thisuser;var userprofile='';var surname=data.surname;
                         
                         profiles.get().then(snapshot=>{
                             snapshot.docs.forEach(doc=>{
@@ -100,7 +155,7 @@ export default {
                             userprofile= profile.profilepic
                         }
                         })
-                        this.user={"firstname":firstname,"email":email,"profile":userprofile}
+                        this.user={"firstname":firstname,"email":email,"profile":userprofile,"surname":surname}
                     })
 
                         }
@@ -175,9 +230,7 @@ export default {
                 if(this.post==""){this.disabled=true}
                 this.imgpresent=false;                      
             },
-            Thisuser:function(){
-                alert(this.user);
-            }
+           
     }
 
 }
@@ -209,6 +262,8 @@ form{width: 100%;}
 .imgcont{width: 100%;border-radius: 50%;}
 .imgcont img{width:500px;height: auto;}
 .postimage{display: none;}
+.hoverable{background-color: transparent;}
+.hoverable:hover{background-color:#504f4f;}
 @media (max-width:640px){
     .content{width: 90%;}
 }

@@ -35,7 +35,8 @@
              oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' @keyup.enter="PostComment(posts.postid)"></textarea>
               
             </v-card>
-            <div v-for="commentor in comments[posts.postid]" :key="commentor" class="bg-transparent py-3" >
+            <div v-for="commentor in ShowCmnt()[posts.postid]" :key="commentor" class="bg-transparent py-3" >
+                <span style="display:none">{{commentor}}</span>
                 <span class="d-flex align-center"><v-avatar size="30" class="bg-grey-darken-4 float-left">
                     <img :src="commentor.profile">        
                 </v-avatar>
@@ -112,8 +113,8 @@ methods:{
                    var postcomments=0;
                    posts.doc(postid).collection("comments").get().then(comments=>{
                        postcomments=comments.size;
-                       this.RetrieveComments(postid,comments)
-                   })
+                    this.RetrieveComments(postid) 
+                  
 
                 //check if the user alredy liked the photo
                     var Likees=[];
@@ -133,10 +134,11 @@ methods:{
          
                                     var content=post.content;var image=post.image;var profile=this.profile;
                                     var details={profile,owner,content,image,postid,postlikes,hasliked,postcomments}
-                                    this.post.push(details);
+                                    this.post.push(details)
                                  }
                              })
                          })
+                   })
                         
 
 
@@ -157,31 +159,52 @@ methods:{
             postlikes.add({
                 user:thisuser,
                 reaction:"Like"
-            }).then()
+            }).then(()=>{
+                this.topost.forEach(post=>{
+                    if(post.postid==id){
+                        post.postlikes=post.postlikes+1;
+                        post.hasliked=true;
+                    }
+                })
+            })
         })
     },
     Unlike:function(id){
-        auth.onAuthStateChanged(user=>{
-            var thisuser=user.email;
-            var postlikes=posts.doc(id).collection("Likes");
-            postlikes.add({
-                user:thisuser,
-                reaction:"Like"
-            }).then()
-        })        
+       posts.doc(id).collection("Likes").where("user","==",this.theuser.email).get().then(user=>{
+           user.forEach(use=>{
+               posts.doc(id).collection("Likes").doc(use.id).delete().then(()=>{
+                   this.topost.forEach(post=>{
+                    if(post.postid==id){
+                        post.postlikes=post.postlikes-1;
+                        post.hasliked=false;
+                    }
+                })
+               })
+           })
+       })    
     },
     PostComment:function(id){
        var x=document.getElementById(id); 
        x.blur();
-       x.value=comment=x.value.trim();     
+       var comment=x.value=x.value.trim();     
           posts.doc(id).collection("comments").add({
               user:this.theuser.email,
               comment:comment
 
+          }).then(()=>{
+              this.topost.forEach(post=>{
+                    if(post.postid==id){
+                        post.postcomments=post.postcomments+1;
+                    }
+                })
+              this.RetrieveComments(id);
+              x.value="";
+              x.focus()
           })
     },
-    RetrieveComments: function(postid,comments){
+    RetrieveComments: function(postid){
         var email,firstname,surname,comment,allcomments,profile,postcomments=[],z=0;
+        posts.doc(postid).collection("comments").get().then(comments=>{
         comments.docs.forEach(text=>{
             var text=text.data();
             users.where('email',"==",text.user).get().then(user=>{
@@ -201,13 +224,16 @@ methods:{
                         allcomments={"email":email,"firstname":firstname,"surname":surname,"comment":comment,"profile":profile}
                         postcomments.push(allcomments)
                        this.comments[postid]=postcomments;
-                       console.log(this.comments)
-
+                    
             })
             // console.log(allcomments)
         
-        })
+        })})
     },
+    ShowCmnt:function(){
+        return this.comments;
+
+    }
     
    
     
